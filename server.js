@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: "http://localhost:8081" || "http://localhost:8082"
 };
 
 app.use(cors(corsOptions));
@@ -18,6 +18,8 @@ app.use(bodyParser.json());
 
 const db = require("./models"); //watch for errors
 const Role = db.role;
+const Bill_Item = db.bill_items;
+const Quote_Item = db.quote_items;
 
 db.sequelize.sync({force: true})
     .then (() => {
@@ -36,6 +38,8 @@ app.get("/",(req, res) => {
 //=================ROUTES=============================
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
+require("./routes/bill.routes")(app);
+require("./routes/quote.routes")(app);
 //=================ROUTES=============================
 
 
@@ -58,6 +62,51 @@ function initial() {
     Role.create({
         id: 2,
         name: "Enterprise"
+    });
+
+    // ======================================
+    Bill_Item.create({
+        id: 1,
+        bill_item_name: "HOSTING",
+        bill_item_price: 150000.00,
+        bill_item_description: "to make the software available online"
+    });
+
+    Bill_Item.create({
+        id: 4,
+        bill_item_name: "DATABAES STORAGE SPACE",
+        bill_item_price: 1000.00,
+        bill_item_description: "to make the software available online"
+    });
+
+    Bill_Item.create({
+        id: 2,
+        bill_item_name: "LOGO DESIGN",
+        bill_item_price: 15000.00,
+        bill_item_description: "the creation of the logos to be used in the application"
+    });
+
+    Bill_Item.create({
+        id: 3,
+        bill_item_name: "NUMBER OF ENGINEERS",
+        bill_item_price: 55000.00,
+        bill_item_description: "to make the software available online"
+    });
+
+
+    // ======================================
+    Quote_Item.create({
+        id: 1,
+        quote_item_name: "NUMBER OF ENGINEERS",
+        quote_item_price: 50000.00,
+        quote_item_description: "to make the software available online"
+    });
+
+    Quote_Item.create({
+        id: 2,
+        quote_item_name: "HOSTING",
+        quote_item_price: 50000.00,
+        quote_item_description: "to make the software available online"
     });
 
 }
