@@ -5,8 +5,16 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:8081" || "http://localhost:8082"
+    
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+
+    // origin: "http://localhost:8081" || "http://localhost:8082"
 };
+
+
 
 app.use(cors(corsOptions));
 
@@ -40,6 +48,7 @@ require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 require("./routes/bill.routes")(app);
 require("./routes/quote.routes")(app);
+require("./routes/bill_items.routes")(app);
 //=================ROUTES=============================
 
 

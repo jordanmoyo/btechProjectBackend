@@ -22,6 +22,8 @@ exports.create = (req, res) => {
         userId: req.body.userId,
     };
 
+    console.log(req.body)
+
     const arr =  req.body.bill_line_items;
     const arrLength = arr.length;
 
@@ -50,7 +52,7 @@ exports.create = (req, res) => {
                         }
                     })
                         .then(billItem => {
-                            console.log('HERE IS THE BILL DATA = '+ billData);
+                           // console.log('HERE IS THE BILL DATA = '+ billData[0]);
                             var bill_itemId = billItem[0].id;
                             console.log('bill_itemId = ' + bill_itemId);
 
