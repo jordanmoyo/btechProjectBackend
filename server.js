@@ -39,9 +39,6 @@ db.sequelize.sync({force: true})
 //===================DB========================//
 
 //simple route
-app.get("/",(req, res) => {
-    res.json({message:"Welcome to JORDANS application."});
-});
 
 //=================ROUTES=============================
 require('./routes/auth.routes')(app);
@@ -50,6 +47,13 @@ require("./routes/bill.routes")(app);
 require("./routes/quote.routes")(app);
 require("./routes/bill_items.routes")(app);
 //=================ROUTES=============================
+
+//=============== in dev mode============================
+if (process.env.NODE_ENV === 'development') {
+    app.get("/", (req, res) => {
+        res.json({ message: "Welcome to JORDANS application." });
+    });
+}
 
 //====================lets setup production mode==========
 
