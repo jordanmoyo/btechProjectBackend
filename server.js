@@ -51,6 +51,16 @@ require("./routes/quote.routes")(app);
 require("./routes/bill_items.routes")(app);
 //=================ROUTES=============================
 
+//====================lets setup production mode==========
+
+if(process.env.NODE_ENV === 'production'){
+    //lets set our static folder for the the frontEnd
+
+    app.use(express.static(__dirname + '/public/'))
+
+    //now lets handle the SPA 
+    app.get(/.*/, (res, req) => res.sendFile(__dirname + '/public/index.html'))
+}
 
 // lets set a port that shall listern to our requests
 
