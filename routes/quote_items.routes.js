@@ -1,7 +1,7 @@
 module.exports = app => {
 
 
-    const bill_items = require("../controllers/bill_items.controller.js");
+    const quote_items = require("../controllers/quote_items.controller.js");
 
     app.use(function (req, res, next) {
         res.header(
@@ -13,10 +13,10 @@ module.exports = app => {
 
     var router = require("express").Router();
 
-    // Retrieve all Bill items/ components
-    router.get("/", bill_items.findAllBillItems);
+    // Retrieve all quote items/ components
+    router.get("/", quote_items.findAllQuoteItems);
 
-    router.get("/", bill_items.findAllBillItems);
+    router.get("/", quote_items.findAllQuoteItems);
 
-    app.use('/api/bill_items', router);
+    app.use('/api/quote_items', router);
 };

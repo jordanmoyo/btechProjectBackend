@@ -29,11 +29,11 @@ const Role = db.role;
 const Bill_Item = db.bill_items;
 const Quote_Item = db.quote_items;
 
-db.sequelize.sync({force: true})
-    .then (() => {
-        console.log('Drop and Resync Db');
-        initial();
-});
+// db.sequelize.sync({force: true})
+//     .then (() => {
+//         console.log('Drop and Resync Db');
+//         initial();
+// });
 
 
 //===================DB========================//
@@ -46,6 +46,7 @@ require('./routes/user.routes')(app);
 require("./routes/bill.routes")(app);
 require("./routes/quote.routes")(app);
 require("./routes/bill_items.routes")(app);
+require("./routes/quote_items.routes")(app);
 //=================ROUTES=============================
 
 //=============== in dev mode============================

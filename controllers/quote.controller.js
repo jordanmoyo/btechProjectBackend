@@ -18,7 +18,7 @@ exports.create = (req, res) => {
 
     // Create a Quote
     const quote = {
-        quote: req.body.quoteName,
+        quoteName: req.body.quoteName,
         userId: req.body.userId,
     };
 
@@ -26,7 +26,7 @@ exports.create = (req, res) => {
     const arrLength = arr.length;
 
     //=======================================================================================
-
+    console.log(quote)
     Quote.create(quote)
         .then(quoteData => {
             const quoteID = quoteData.dataValues.id;
@@ -45,7 +45,7 @@ exports.create = (req, res) => {
                         }
                     })
                         .then(quoteItem => {
-                            console.log('HERE IS THE quote DATA = ' + quoteData);
+                            console.log('HERE IS THE quote DATA = ' + quoteData.dataValues);
                             var quote_itemId = quoteItem[0].id;
                             console.log('quote_itemId = ' + quote_itemId);
 

@@ -147,62 +147,94 @@ exports.update = (req, res) => {
     //GETTING THE userID AND billID FROM THE REQUEST PARAMS(PARAMETERS)
     const userId = req.params.userId;
     const billId = req.params.billId;
-
     // Creating the billname to be updated 
     const bill = {
         billName: req.body.billName,
+        userId: req.body.userId,
     };
 
-    Bill.update(bill, {
-        where: { 
+    console.log(req.body)
+
+    const arr = req.body.bill_line_items;
+    const arrLength = arr.length;
+
+    Bill.destroy({
+        where: {
             id: billId,
-            userId: userId,
+            userId: userId
         }
     })
         .then(num => {
+            if(num >= 1){
 
-            if(req.body.bill_line_items){
-                const arr = req.body.bill_line_items;
-                const arrLength = arr.length;
-                for(let i = 0; i < arrLength; i++){
+                Bill.create(bill)
+                    .then(billData => {
+                        const billID = billData.dataValues.id;
+                        console.log('billId = ' + billID);
 
-                    var bill_itemId = arr[i].bill_itemId;
-                    Bill_Line_item.update({ quantity: arr[i].quantity }, {
-                        where : {
-                           bill_itemId  : bill_itemId,
-                            billId  : billId,
+                        if (req.body.bill_line_items) {
+                            // const arr = req.body.bill_line_items;
+                            // const arrLength = arr.length;
+                            // console.log(arrLength, arr);
+
+
+                            for (let i = 0; i < arrLength; i++) {
+                                var eachItem = arr[i].bill_item_name;
+
+                                console.log(eachItem);
+
+                                Bill_Item.findAll({
+                                    where: {
+                                        bill_item_name: eachItem
+
+                                    }
+                                })
+                                    .then(billItem => {
+                                        // console.log('HERE IS THE BILL DATA = '+ billData[0]);
+                                        var bill_itemId = billItem[0].id;
+                                        console.log('bill_itemId = ' + bill_itemId);
+
+                                        billData.setBill_items(billItem)
+                                            .then(() => {
+                                                Bill_Line_item.update(
+                                                    { quantity: arr[i].quantity },
+                                                    {
+                                                        where: {
+                                                            bill_itemId: bill_itemId,
+                                                            billId: billID
+                                                        }
+                                                    }
+                                                )
+                                                    .then(result => {
+                                                        if (i === (arrLength - 1)) {
+                                                            // res.send(result)
+
+                                                            res.send({ message: "Item registered succefully!" })
+
+                                                        }
+                                                    }
+
+
+                                                    )
+                                            });
+                                    });
+                            }
+
                         }
-                     })
-                        .then(rowsUpdated =>
-                            {
-                                if(i === (arrLength - 1)){
-                                    res.send({message : rowsUpdated + ' Row(s) were updated succesfully'})
-                                }
-                            } 
-                        )
-                    
-                }
-            }else{
 
-                if (num => 1){
-                res.send({
-                    message: 'bill updated succefully!'
-                });
-                }else{
-                res.send({
-                    message: 'Bill not updated may because it was not found!'
-                });
-            }
+
+                    })
+                    .catch(err => {
+                        res.status(500).send({ message: err.message });
+                    });
+
 
             }
-
-            
         })
-        .catch(err => {
-            res.status(500).send({
-                message : 'Error updating Bill'
-            });
-        });
+
+   
+
+    
 
 };
 
