@@ -29,11 +29,12 @@ const Role = db.role;
 const Bill_Item = db.bill_items;
 const Quote_Item = db.quote_items;
 
-// db.sequelize.sync({force: true})
-//     .then (() => {
-//         console.log('Drop and Resync Db');
-//         initial();
-// });
+//{force: true}
+db.sequelize.sync()
+    .then (() => {
+        console.log("Synchronising Database...");
+        initial();
+});
 
 
 //===================DB========================//
