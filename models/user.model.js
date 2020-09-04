@@ -9,6 +9,11 @@ module.exports = (sequelize, Sequelize) => {
         password: {
             type: Sequelize.STRING
         },
+        // id: {
+        //     type: Sequelize.BIGINT,//.UNSIGNED,
+        //     primaryKey: true,
+        //     autoIncrement: true
+        // },
     });
 
     return User;
